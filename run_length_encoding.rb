@@ -1,14 +1,14 @@
 class RunLengthEncoding
   class << self
     def encode(input)
-      input.split(//).chunk{|char| char}.map do |char,chars|
-        length = chars.length
-        length > 1 ? [length, char] : char
+      input.scan(/(.)(\1*)/).map do |first,rest|
+        length = rest.length > 0 ? rest.length + 1 : nil
+        [ length, first ]
       end.join
     end
 
     def decode(input)
-      input.scan(/(\d*)([a-zA-Z\s]{1})/).map do |group|
+      input.scan(/(\d*)([\w\s]{1})/).map do |group|
         length = group[0].to_i
         length > 0 ? group[1] * length : group[1]
       end.join
