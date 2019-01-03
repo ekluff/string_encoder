@@ -2,7 +2,7 @@ class RunLengthEncoding
   class << self
     def encode(input)
       input.scan(/(.)(\1+)?/).map do |first,rest|
-        length = rest.length + 1 rescue nil
+        length = rest.nil? ? nil : rest.length + 1
         [ length, first ]
       end.join
     end
